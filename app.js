@@ -1,5 +1,6 @@
+const fs = require('fs')
 const express = require('express');
-const http = require('http');
+const https = require('https');
 const path = require('path');
 const passport = require('passport');
 const morgan = require('morgan');
@@ -7,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const errorhandler = require('errorhandler');
+require('dotenv').config()
 
 var env = process.env.NODE_ENV || 'development';
 const config = require('./config/config')[env];
@@ -36,6 +38,37 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 require('./config/routes')(app, config, passport);
 
-app.listen(app.get('port'), function () {
-  console.log('Express server listening on port ' + app.get('port'));
-});
+
+var options = {
+  secureProtocol: 'TLSv1_2_server_method',
+  secureOptions: https.SSL_OP_NO_TLSv1 | https.SSL_OP_NO_SSLv3 | https.SSL_OP_NO_TLSv1_1,
+  cert: fs.readFileSync("./ssl/cert.pem"),
+  key: fs.readFileSync("./ssl/key.pem"),
+  passphrase: process.env.PASSPHRASE,
+  ciphers: [
+      "ECDHE-RSA-AES256-SHA384",
+      "DHE-RSA-AES256-SHA384",
+      "ECDHE-RSA-AES256-SHA256",
+      "DHE-RSA-AES256-SHA256",
+      "ECDHE-RSA-AES128-SHA256",
+      "DHE-RSA-AES128-SHA256",
+      "HIGH",
+      "!aNULL",
+      "!eNULL",
+      "!EXPORT",
+      "!DES",
+      "!RC4",
+      "!MD5",
+      "!PSK",
+      "!SRP",
+      "!CAMELLIA"
+  ].join(':'),
+  honorCipherOrder: true
+};
+
+const httpServer = https.createServer(options, app)
+httpServer.listen(app.get('port'), 
+  () => {
+    console.log(`Express serving at https://${app.get('hostname')}:${app.get('port')}`)
+  }
+)

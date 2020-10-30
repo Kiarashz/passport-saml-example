@@ -1,23 +1,24 @@
 const SamlStrategy = require('passport-saml').Strategy;
+const fs = require('fs')
 
 module.exports = function (passport, config) {
 
   passport.serializeUser(function (user, done) {
+    console.log('serializeUser')
+    console.log(user)
     done(null, user);
   });
 
   passport.deserializeUser(function (user, done) {
+    console.log('deserializeUser')
     done(null, user);
   });
 
-  passport.use(new SamlStrategy(
-    {
-      path: config.passport.saml.path,
-      entryPoint: config.passport.saml.entryPoint,
-      issuer: config.passport.saml.issuer,
-      cert: config.passport.saml.cert
-    },
+  const samlStrategy = new SamlStrategy(
+    config.passport.saml,
     function (profile, done) {
+      console.log('profile')
+      console.log(profile)
       return done(null,
         {
           id: profile.uid,
@@ -26,7 +27,11 @@ module.exports = function (passport, config) {
           firstName: profile.givenName,
           lastName: profile.sn
         });
-    })
-  );
+  })
+  
+  console.log(
+    samlStrategy.generateServiceProviderMetadata(process.env.SAML_SIGNING_CERT, process.env.SAML_DECREPTION_CERT)
+  )
+  passport.use(samlStrategy);
 
 };
