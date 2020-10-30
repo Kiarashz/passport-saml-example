@@ -30,7 +30,7 @@ module.exports = function (passport, config) {
   })
   
   console.log(
-    samlStrategy.generateServiceProviderMetadata(process.env.SAML_SIGNING_CERT, process.env.SAML_DECREPTION_CERT)
+    samlStrategy.generateServiceProviderMetadata(process.env.SAML_SIGN_CERT, process.env.SAML_DECRYPT_CERT)
   )
   passport.use(samlStrategy);
 
