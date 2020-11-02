@@ -19,6 +19,8 @@ module.exports = function (passport, config) {
     function (profile, done) {
       console.log('profile')
       console.log(profile)
+      console.log('Assertion')
+      console.log(profile.getAssertionXml())
       return done(null,
         {
           id: profile.uid,
