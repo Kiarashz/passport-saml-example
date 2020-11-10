@@ -32,7 +32,7 @@ module.exports = function (passport, config) {
   })
   
   console.log(
-    samlStrategy.generateServiceProviderMetadata(config.passport.saml.signingCert, config.passport.saml.decryptionCert)
+    samlStrategy.generateServiceProviderMetadata(config.passport.saml.decryptionCert, config.passport.saml.signingCert)
   )
   passport.use(samlStrategy);
 
