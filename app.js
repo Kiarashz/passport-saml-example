@@ -11,7 +11,7 @@ const errorhandler = require('errorhandler');
 require('dotenv').config()
 
 var env = process.env.NODE_ENV || 'development';
-const config = require('./config/config')[env];
+const config = require('./config/config');
 
 console.log('Using configuration', config);
 

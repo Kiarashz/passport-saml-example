@@ -5,7 +5,7 @@ const read1LineCert = filename => fs.readFileSync(filename, 'utf-8').replace('--
 
 module.exports = {
     app: {
-        name: 'Nova UI',
+        name: process.env.SAML_ISSUER,
         port: process.env.PORT || 3000
     },
     passport: {
