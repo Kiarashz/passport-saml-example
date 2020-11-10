@@ -18,7 +18,7 @@ module.exports = {
             cert: process.env.SAML_CERT,
             authnContext: 'http://schemas.microsoft.com/ws/2008/06/identity/authenticationmethod/windows',
             identifierFormat: "urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified",
-            signatureAlgorithm: 'sha512',
+            signatureAlgorithm: 'sha256',
             privateKey: fs.readFileSync(process.env.SAML_SIGN_KEY, 'utf-8'),
             signingCert: read1LineCert(process.env.SAML_SIGN_CERT),
             decryptionPvk: fs.readFileSync(process.env.SAML_DECRYPT_KEY, 'utf-8'),
