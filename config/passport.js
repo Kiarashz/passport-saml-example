@@ -31,9 +31,7 @@ module.exports = function (passport, config) {
         });
   })
   
-  console.log(
-    samlStrategy.generateServiceProviderMetadata(config.passport.saml.decryptionCert, config.passport.saml.signingCert)
-  )
   passport.use(samlStrategy);
-
+  config['metadata'] = samlStrategy.generateServiceProviderMetadata(config.passport.saml.decryptionCert, config.passport.saml.signingCert)
+  console.log(config.metadata)
 };

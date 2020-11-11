@@ -15,6 +15,11 @@ module.exports = function (app, config, passport) {
     }
   });
 
+  app.get('/metadata', function (req, res) {
+    res.set('Content-Type', 'text/xml')
+    res.send(config.metadata)
+  });
+
   app.get('/login',
     passport.authenticate(config.passport.strategy,
       {
