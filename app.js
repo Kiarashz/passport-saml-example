@@ -42,8 +42,8 @@ require('./config/routes')(app, config, passport);
 var options = {
   secureProtocol: 'TLSv1_2_server_method',
   secureOptions: https.SSL_OP_NO_TLSv1 | https.SSL_OP_NO_SSLv3 | https.SSL_OP_NO_TLSv1_1,
-  cert: fs.readFileSync("./ssl/cert.pem"),
-  key: fs.readFileSync("./ssl/key.pem"),
+  cert: fs.readFileSync(process.env.HTTPS_CERT),
+  key: fs.readFileSync(process.env.HTTPS_KEY),
   passphrase: process.env.PASSPHRASE,
   ciphers: [
       "ECDHE-RSA-AES256-SHA384",
